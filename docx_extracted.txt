@@ -1,0 +1,15 @@
+--- PRE-TABLE PARAGRAPHS ---
+Natural Language Processing Lab Report
+Prepared for the NLP laboratory course
+This report summarises the topics covered in the laboratory sessions and the tools that were used in each week.
+Each session combines a short explanation with practical exercises that students solve in Python notebooks.
+Course Schedule
+
+--- TABLE DATA ---
+Week | Topic | Library | Marks
+1 | Python for NLP | Python | 5
+2 | Regular expressions | re | 5
+3 | Tokenization | NLTK, spaCy | 
+4 | Text preprocessing | NLTK | 10
+5 | Language models |  | 10
+6 | Evaluation | scikit-learn | 
