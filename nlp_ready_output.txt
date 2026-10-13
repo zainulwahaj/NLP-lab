@@ -1,0 +1,63 @@
+introduction to natural language processing natural language processing usually shortened to nlp is the field of computer science that teaches machines to read understand and produce human language
+every day people write emails send messages post reviews and search the web and nearly all of this data is unstructured text
+nlp gives us the tools to turn that text into something a program can count compare and learn from
+the field sits between linguistics computer science and machine learning
+linguistics explains how words sentences and meaning are built
+computer science provides the data structures and algorithms to process millions of documents
+machine learning supplies the statistical methods that let a system improve from examples instead of following only hand written rules
+a typical nlp project starts with raw text cleans it splits it into tokens and then represents the tokens as numbers
+after that a model can classify the text translate it summarise it or answer questions about it
+each of these stages can go wrong in its own way which is why a careful student of language technology learns to inspect the data at every step
+a short history of nlp the first serious attempts at machine translation began in the s
+in a public demonstration translated more than sixty russian sentences into english and many researchers believed the problem would be solved within a few years
+language turned out to be far more ambiguous and irregular than early systems assumed
+during the s and s most systems relied on hand written grammar rules
+programs such as eliza imitated a conversation by matching keywords and they showed how easily people read intelligence into simple text patterns
+rule based systems were precise on narrow topics but broke down as soon as the vocabulary grew
+large collections of text became available and researchers began to count words and word sequences instead of writing every rule by hand
+hidden markov models and n gram language models became standard tools
+in the s neural networks took over first with word embeddings and then with transformer models trained on billions of words
+text preprocessing raw text is messy
+it contains capital letters punctuation web addresses such as and numbers like or and stray symbols
+before any model sees the text it is usually cleaned
+common steps are lowercasing removing noise with regular expressions splitting the text into sentences and tokens and removing very common words called stop words
+tokenization splits a sentence into the units a model will work with
+a simple tokenizer splits on spaces while a better one handles contractions such as don t abbreviations such as dr
+stemming then cuts words down to a crude root so that running and runs both become run while lemmatization uses a dictionary to return the proper base form so that better becomes good
+every cleaning step removes some information
+lowercasing makes apple the company look like apple the fruit
+removing stop words can delete the word not which turns a complaint into praise
+good preprocessing is therefore a decision made for each task not a fixed recipe
+how much cleaning is right for a search engine probably more than for a chatbot
+language models a language model assigns a probability to a sequence of words
+given the words the cat sat on the a good model should think that mat is more likely than refrigerator
+this simple idea powers spelling correction speech recognition machine translation and predictive keyboards
+the oldest practical language models are n gram models
+a bigram model estimates the probability of a word from the one word before it and a trigram model from the two words before it
+the counts come directly from a training corpus which makes the model easy to build but also means that any pair of words never seen in training receives a probability of zero
+smoothing methods such as add one smoothing fix this by moving a little probability to unseen events
+modern language models are neural networks
+they read the text as a sequence of tokens learn a vector for each token and predict the next token using context from the whole sentence
+perplexity is the standard way to compare language models the lower the perplexity the less surprised the model is by the test text
+applications of nlp search engines use nlp to understand what a query means and which documents answer it
+email services use it to detect spam and companies use sentiment analysis to learn whether customers are happy with a product by reading thousands of reviews in a few seconds
+machine translation systems now translate between hundreds of language pairs
+virtual assistants turn speech into text work out what the user wants and speak an answer back
+in medicine nlp extracts diagnoses and medicines from doctors notes so that researchers can study patients at a scale that was impossible by hand
+in education automatic tools check grammar grade short answers and suggest reading material
+in law and finance nlp helps professionals search long contracts and news feeds
+almost every one of these applications combines the same basic ingredients clean text a good representation and a model trained on enough examples
+challenges and ethics human language is full of ambiguity
+the sentence i saw her duck can mean two different things and the word bank can mean a river bank or a place that keeps money
+sarcasm slang spelling mistakes and code switching between languages make the task harder again
+languages with few digital texts including many south asian languages have far fewer tools than english
+models learn from the text they are given so they also learn its biases
+a system trained on biased data can repeat stereotypes about gender religion or nationality
+privacy is another concern because personal messages and medical notes must be handled with great care
+engineers have a responsibility to test their systems on different groups of people before they are used
+accuracy numbers can hide serious mistakes and a fluent sentence is not always a true one
+researchers therefore combine automatic scores with human judgement and they publish the limits of their data together with their results
+conclusion natural language processing turns the written word into data that computers can use
+it begins with careful preprocessing moves through tokens counts and probabilities and ends in applications that millions of people use every day
+the techniques in this document from regular expressions to language models are the foundations on which larger systems are built
+a student who understands why each step is needed and what it can damage is better prepared to build reliable language technology than one who only copies a recipe
