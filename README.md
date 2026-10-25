@@ -138,6 +138,83 @@ the unseen bigram `fish sat`, so its MLE probability is 0 and its perplexity is 
 
 ---
 
+## Lab 06 — Text Classification: Naive Bayes & Logistic Regression
+
+[`Lab06_Text_Classification.ipynb`](Lab06_Text_Classification.ipynb)
+
+All **9 tasks (36 parts)**, fully executed with saved outputs.
+
+| # | Task | Topic |
+|---|------|-------|
+| 01 | The review datasets | NLTK `movie_reviews` corpus, `value_counts()`, length distribution |
+| 02 | Bag-of-Words with CountVectorizer | `fit_transform()`, `.vocabulary_`, CSR sparsity |
+| 03 | TF-IDF weighting | `TfidfVectorizer`, raw count vs TF-IDF, `idf_` range |
+| 04 | Training both classifiers | `train_test_split`, `MultinomialNB`, `LogisticRegression` |
+| 05 | Evaluation beyond accuracy | accuracy, precision, recall, F1, `confusion_matrix` |
+| 06 | Bundling it into a Pipeline | `Pipeline`, fitting on raw text, `new_reviews.txt` |
+| 07 | A second dataset: app reviews | imbalanced data, per-class recall |
+| 08 | Where the model goes wrong | `predict_proba()`, confident misclassifications |
+| 09 | Class imbalance and auto-flagging | `class_weight='balanced'`, business recommendation |
+
+**Datasets.** Tasks 01–06 use the NLTK `movie_reviews` corpus (the Pang & Lee polarity
+dataset, real full-length IMDB reviews), subsampled to 800 balanced documents and written
+to `data/movie_reviews.csv`. Tasks 07–09 use a deliberately imbalanced app review set,
+75 positive to 35 negative, written to `data/app_reviews.csv`.
+
+**Results.** On the movie reviews, Logistic Regression reaches 81.25% test accuracy and
+Naive Bayes 76.25% over a 27,358-term vocabulary. On the imbalanced app reviews the
+default model scores 62.5% accuracy with **0% recall on the negative class** — it predicts
+the majority class every time. Adding `class_weight='balanced'` raises negative recall to
+55.6% and precision to 62.5%, and accuracy *rises* to 70.8% as well.
+
+**A note on two things the notebook gets wrong on purpose.** Task 06 classifies three
+one-sentence reviews with a model fitted on reviews averaging 3,890 characters, and the
+probabilities all sit near 0.5 with one sentence scored wrongly. That is a domain
+mismatch rather than a bug, and the notebook says so. Task 03 also departs from the lab
+manual: the manual's Activity 2 reads `X_bow` using a column index taken from the TF-IDF
+vectorizer's vocabulary, which only works by coincidence, so each word is looked up in its
+own vectorizer here.
+
+---
+
+## Lab 07 — POS Tagging & Named Entity Recognition
+
+[`Lab07_POS_Tagging_and_NER.ipynb`](Lab07_POS_Tagging_and_NER.ipynb)
+
+All **9 tasks (36 parts)**, fully executed with saved outputs.
+
+| # | Task | Topic |
+|---|------|-------|
+| 01 | The spaCy pipeline | `en_core_web_sm`, pipeline components, `.pos_` and `.tag_` |
+| 02 | Coarse versus fine-grained tags | UPOS vs Penn Treebank, `spacy.explain()` |
+| 03 | Context-dependent tagging | the same word tagged differently by context |
+| 04 | Filtering noise tokens | `SPACE` / `PUNCT` / `X`, stop words, lemma frequencies |
+| 05 | NER with `doc.ents` | entity spans, labels, char offsets, IOB encoding |
+| 06 | Visualising with displaCy | `style="ent"`, dependency parse, rendering to HTML |
+| 07 | Extending with EntityRuler | custom `PRODUCT` patterns, `before=` vs `after="ner"` |
+| 08 | Job postings: POS analysis | POS table per posting, most frequent nouns and verbs |
+| 09 | Job postings: NER extraction | `SKILL` patterns, row-per-posting structured output |
+
+**Data.** A news paragraph written to `data/news_paragraph.txt` and eight job postings
+written to `data/job_postings.csv`, both produced by the notebook.
+
+**What the EntityRuler experiment shows.** The default model tags `Pixel 10` as
+`PERSON` + `CARDINAL` and does not recognise `iPhone` at all. With the ruler added
+`before="ner"`, both are correctly tagged `PRODUCT`. Added `after="ner"` instead, only
+`iPhone` is recovered, because spaCy does not allow overlapping spans and `Pixel 10` is
+already claimed by the statistical model. That contrast is the point of the task.
+
+**A note on the structured extractor.** Task 09 builds the recruiting-automation table the
+lab asks for, and it only gets the company right for **2 of 8 postings**. Location is
+correct 8/8 and skills 8/8. The failures are informative rather than accidental: unknown
+employer names are missed, and in their place the model returns job titles such as
+`DevOps Engineer`, which are capitalised multi-word spans sitting where an organisation
+normally sits. The notebook scores this against the known answers instead of reporting
+only that a value was produced, and explains that the fix is the same ruler approach the
+`SKILL` patterns already demonstrate.
+
+---
+
 ## Requirements
 
 | Lab | Needs |
@@ -147,6 +224,8 @@ the unseen bigram `fish sat`, so its MLE probability is 0 and its perplexity is 
 | 03 | `nltk`, `spacy` with the `en_core_web_sm` model |
 | 04 | `nltk`, `spacy` (`en_core_web_sm`), `pandas`, `matplotlib`, `scikit-learn`, `requests` |
 | 05 | Python standard library only |
+| 06 | `nltk`, `pandas`, `scikit-learn`, `matplotlib` |
+| 07 | `spacy` with `en_core_web_sm`, `pandas`, `matplotlib` |
 
 ```bash
 pip install pdfplumber python-docx pandas requests nltk spacy matplotlib scikit-learn
@@ -154,6 +233,8 @@ python -m spacy download en_core_web_sm
 ```
 
 NLTK data (`punkt_tab`, `stopwords`, `movie_reviews`, `brown`) is downloaded automatically by the notebooks when missing.
+
+Lab 07 was executed with `spacy==3.7.5` on Python 3.12. Newer `preshed` builds (3.0.14) raise `OverflowError: Python int too large to convert to C ssize_t` when loading the model on Windows; `pip install preshed==3.0.12` fixes it.
 
 ## Running
 
